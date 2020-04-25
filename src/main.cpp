@@ -45,7 +45,7 @@ void initialize() {
     for(int i = 0; i < 3; i++) {
         bird_frames[i].sprite.mx = 33;
         bird_frames[i].sprite.my = 32;
-        bird_frames[i].sprite.x = 320 / 2 + i * 32;
+        bird_frames[i].sprite.x = 320 / 2;
         bird_frames[i].sprite.y = 240 / 2;
     }
 
@@ -55,10 +55,16 @@ void initialize() {
 
 void update() {
     GamepadService::padUpdate();
+    for(int i = 0; i < 3; i++) {
+        bird_frames[i].sprite.rotate = sin(rot++ / (3.14f * 4))*10 * 4096;
+    }
+
+    frame += 0.0625f;
+    if(frame >= 3.0) {
+        frame = 0;
+    }
 }
 
 void draw() {
-    DisplayService::drawImage(bird_frames[0]);
-    DisplayService::drawImage(bird_frames[1]);
-    DisplayService::drawImage(bird_frames[2]);
+    DisplayService::drawImage(bird_frames[(int)floor(frame)]);
 }
