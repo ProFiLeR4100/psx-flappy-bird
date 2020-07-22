@@ -1,4 +1,5 @@
 #include <DisplayService.h>
+#include <LIBGS.H>
 
 int DisplayService::SCREEN_WIDTH;
 int DisplayService::SCREEN_HEIGHT;
@@ -135,5 +136,12 @@ Image DisplayService::createImage(unsigned char imageData[]) {
     image.sprite.scaley = ONE;                      // scale y (ONE = 100%)
     image.sprite.rotate = 0;                        // rotation
 
+    return image;
+}
+
+
+Image DisplayService::scaleImage(Image image, short scaleX, short scaleY) {
+    image.sprite.scalex = (short)(ONE * scaleX);
+    image.sprite.scaley = (short)(ONE * scaleY);
     return image;
 }

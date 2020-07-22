@@ -288,6 +288,7 @@ void clearVRAM() {
     setRECT(&rectTL, 0, 0, 1024, 512);
     ClearImage2(&rectTL, 0, 0, 0);
     DrawSync(0);
+	VSync(0);
     return;
 }
 

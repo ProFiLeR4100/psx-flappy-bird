@@ -9,7 +9,7 @@
 #define SCREEN_MODE_NTSC 1
 #define DISPLAY_SERVICE_MODE 1
 #define OT_LENGTH 1
-#define PACKETMAX 300
+#define PACKETMAX 500
 
 class DisplayService {
 public:
@@ -38,4 +38,6 @@ public:
     static void drawImage(Image image);
 
     static Image createImage(unsigned char imageData[]);
+
+    static Image scaleImage(Image image, short scaleX, short scaleY);
 };

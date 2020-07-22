@@ -1,10 +1,13 @@
 #include <LIBSPU.H>
 
+#ifndef AUDIO_SERVICE_CLASS
+#define AUDIO_SERVICE_CLASS
+
 class AudioService {
 public:
     static void initialize();
 
-    static void audioTransferVagToSPU(unsigned char *sound, unsigned long sound_size, unsigned long int voice_channel);
+    static void audioTransferVagToSPU(unsigned char *sound, unsigned long sound_size, unsigned long int voice_channel, short volume);
 
 //    * @return sum of `values`, or 0.0 if `values` is empty.
 /**
@@ -17,4 +20,8 @@ public:
     static SpuCommonAttr l_c_attr;
     static unsigned long l_vag1_spu_addr;
     static SpuVoiceAttr g_s_attr;
+
+    static void setVolume(unsigned long voice_channel, short volume);
 };
+
+#endif // AUDIO_SERVICE_CLASS

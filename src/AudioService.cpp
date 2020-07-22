@@ -17,7 +17,7 @@ void AudioService::initialize() {
     SpuSetCommonAttr(&AudioService::l_c_attr);
 }
 
-void AudioService::audioTransferVagToSPU(unsigned char * sound, unsigned long sound_size, unsigned long int voice_channel) {
+void AudioService::audioTransferVagToSPU(unsigned char * sound, unsigned long sound_size, unsigned long int voice_channel, short volume) {
     SpuSetTransferMode(SpuTransByDMA); // set transfer mode to DMA
     l_vag1_spu_addr = SpuMalloc((long) sound_size); // allocate SPU memory for sound 1
     SpuSetTransferStartAddr(l_vag1_spu_addr); // set transfer starting address to malloced area
@@ -42,8 +42,8 @@ void AudioService::audioTransferVagToSPU(unsigned char * sound, unsigned long so
 
     g_s_attr.voice = (voice_channel);
 
-    g_s_attr.volume.left = 0x1fff;
-    g_s_attr.volume.right = 0x1fff;
+    g_s_attr.volume.left = (short) 0x1fff & volume;
+    g_s_attr.volume.right = (short) 0x1fff & volume;
 
     g_s_attr.pitch = 0x1000;
     g_s_attr.addr = l_vag1_spu_addr;
@@ -61,4 +61,8 @@ void AudioService::audioTransferVagToSPU(unsigned char * sound, unsigned long so
 
 void AudioService::audioPlay(unsigned long int voice_channel) {
     SpuSetKey(SpuOn, voice_channel);
+}
+
+void AudioService::setVolume(unsigned long int voice_channel, short volume) {
+    SpuSetVoiceVolume(voice_channel, volume, volume);
 }
