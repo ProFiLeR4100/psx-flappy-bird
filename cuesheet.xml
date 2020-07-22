@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<iso_project image_name="image.bin" cue_sheet="image.cue" no_xa="1">
+	<track type="data">
+		<license file="LICENSEE.DAT"/>
+		<directory_tree>
+			<file name="SYSTEM.CNF"	type="data"	source="SYSTEM.CNF"/>
+
+			<!-- Images -->
+			<file name="BRD_F1.TIM" type="data" source="data/images/img_bird_f1.tim"/>
+			<file name="BRD_F2.TIM" type="data" source="data/images/img_bird_f2.tim"/>
+			<file name="BRD_F3.TIM" type="data" source="data/images/img_bird_f3.tim"/>
+			<file name="BLDNGS.TIM" type="data" source="data/images/img_buildings.tim"/>
+			<file name="CLDS.TIM" type="data" source="data/images/img_clouds.tim"/>
+			<file name="G_O.TIM" type="data" source="data/images/img_game_over.tim"/>
+			<file name="GND.TIM" type="data" source="data/images/img_ground.tim"/>
+			<file name="LVS.TIM" type="data" source="data/images/img_leaves.tim"/>
+			<file name="LG.TIM" type="data" source="data/images/img_logo.tim"/>
+			<file name="PP.TIM" type="data" source="data/images/img_pipe.tim"/>
+			<file name="PP_R.TIM" type="data" source="data/images/img_pipe_reversed.tim"/>
+
+			<!-- Music -->
+			<file name="MUSIC.VAG"	type="data"	source="data/music/MUSIC.VAG"/>
+
+			<!-- Sound FX -->
+			<file name="JUMP.VAG"	type="data"	source="data/sfx/JUMP.VAG"/>
+			<file name="PASSED.VAG"	type="data"	source="data/sfx/PASSED.VAG"/>
+
+			<!-- Executable -->
+			<file name="MAIN.EXE"	type="data"	source="MAIN.EXE"/>
+
+			<!-- Add your own files or folders here -->
+			<dummy sectors="1024"/>
+		</directory_tree>
+	</track>
+</iso_project>
