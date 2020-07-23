@@ -1,3 +1,0 @@
-C:/Projects/PSYQ_SDK/demo/project/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Projects/PSYQ_SDK/demo/project/cmake-build-debug/CMakeFiles/untitled.dir
-C:/Projects/PSYQ_SDK/demo/project/cmake-build-debug/CMakeFiles/rebuild_cache.dir
