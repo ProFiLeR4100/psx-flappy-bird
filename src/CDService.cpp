@@ -4,17 +4,17 @@
 int CDService::didInitDs = 0;
 
 void CDService::open() {
-    if(!CDService::didInitDs) {
-        CDService::didInitDs = 1;
-        DsInit();
-    }
+//    if(!CDService::didInitDs) {
+//        CDService::didInitDs = 1;
+//        DsInit();
+//    }
 }
 
 void CDService::close() {
-    if(CDService::didInitDs) {
-        CDService::didInitDs = 0;
-        DsClose();
-    }
+//    if(CDService::didInitDs) {
+//        CDService::didInitDs = 0;
+//        DsClose();
+//    }
 }
 
 void CDService::read(unsigned char* file_path, unsigned long** file) {

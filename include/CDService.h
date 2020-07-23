@@ -1,6 +1,6 @@
 #include <STDIO.H>
 #include <MALLOC.H>
-#include <STRINGS.H>
+//#include <STRINGS.H>
 #include <LIBDS.H>
 
 #ifndef CD_SERVICE_CLASS
