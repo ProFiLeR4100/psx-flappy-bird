@@ -13,31 +13,31 @@
 
 class DisplayService {
 public:
-    static Color systemBackgroundColor;
-    static int SCREEN_WIDTH;
-    static int SCREEN_HEIGHT;
-    static GsOT orderingTable[2];
-    static GsOT_TAG minorOrderingTable[2][1 << OT_LENGTH];
-    static short currentBuffer;
-    static PACKET GPUOutputPacket[2][PACKETMAX];
+	static Color systemBackgroundColor;
+	static int SCREEN_WIDTH;
+	static int SCREEN_HEIGHT;
+	static GsOT orderingTable[2];
+	static GsOT_TAG minorOrderingTable[2][1 << OT_LENGTH];
+	static short currentBuffer;
+	static PACKET GPUOutputPacket[2][PACKETMAX];
 
-    static void initialize();
+	static void initialize();
 
-    static void clearVRAM();
+	static void clearVRAM();
 
-    static void initializeOrderingTable();
+	static void initializeOrderingTable();
 
-    static void setScreenMode(int mode);
+	static void setScreenMode(int mode);
 
-    static void setBackgroundColor(Color color);
+	static void setBackgroundColor(Color color);
 
-    static void display();
+	static void display();
 
-    static void clearDisplay();
+	static void clearDisplay();
 
-    static void drawImage(Image image);
+	static void drawImage(Image image);
 
-    static Image createImage(unsigned char imageData[]);
+	static Image createImage(unsigned char imageData[]);
 
-    static Image scaleImage(Image image, short scaleX, short scaleY);
+	static Image scaleImage(Image image, short scaleX, short scaleY);
 };

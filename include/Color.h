@@ -2,9 +2,9 @@
 #define COLOR_STRUCT
 
 typedef struct {
-    int r;
-    int g;
-    int b;
+	int r;
+	int g;
+	int b;
 } Color;
 
 #endif // COLOR_STRUCT

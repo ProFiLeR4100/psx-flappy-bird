@@ -5,8 +5,8 @@
 
 class Box {
 public:
-    Line line[4];
-    int type;
+	Line line[4];
+	int type;
 };
 
 #endif // BOX_STRUCT

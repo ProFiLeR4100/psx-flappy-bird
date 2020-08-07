@@ -6,10 +6,10 @@
 
 class Image {
 public:
-    RECT rect;
-    RECT crect;
-    GsIMAGE tim_data;
-    GsSPRITE sprite;
+	RECT rect;
+	RECT crect;
+	GsIMAGE tim_data;
+	GsSPRITE sprite;
 };
 
 #endif // IMAGE_STRUCT

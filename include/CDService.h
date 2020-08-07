@@ -3,15 +3,15 @@
 //#include <STRINGS.H>
 #include <LIBDS.H>
 
-#ifndef CD_SERVICE_CLASS
-#define CD_SERVICE_CLASS
+#ifndef CD_SERVICE_H
+#define CD_SERVICE_H
 
 class CDService {
 public:
-    static void open();
-    static void close();
-    static void read(unsigned char* file_path, unsigned long** file);
-    static int didInitDs;
+	static void open();
+	static void close();
+	static void read(unsigned char* file_path, u_long** file);
+	static int didInitDs;
 };
 
-#endif // CD_SERVICE_CLASS
+#endif // CD_SERVICE_H

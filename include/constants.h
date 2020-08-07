@@ -2,7 +2,7 @@
  * constants.h
  *
  *  Created on: Oct 8, 2016
- *      Author: Wituz
+ *	  Author: Wituz
  */
 
 #pragma once
@@ -58,7 +58,7 @@ short 		  currentBuffer;
 Color 		  systemBackgroundColor;
 SpuCommonAttr l_c_attr;
 SpuVoiceAttr  g_s_attr;
-unsigned long l_vag1_spu_addr;
+u_long l_vag1_spu_addr;
 
 void audioInit() {
 	SpuInit();
@@ -97,16 +97,16 @@ void audioTransferVagToSPU(char* sound, int sound_size, int voice_channel) {
 	g_s_attr.volume.left  = 0x1fff;
 	g_s_attr.volume.right = 0x1fff;
 
-	g_s_attr.pitch        = 0x1000;
-	g_s_attr.addr         = l_vag1_spu_addr;
-	g_s_attr.a_mode       = SPU_VOICE_LINEARIncN;
-	g_s_attr.s_mode       = SPU_VOICE_LINEARIncN;
-	g_s_attr.r_mode       = SPU_VOICE_LINEARDecN;
-	g_s_attr.ar           = 0x0;
-	g_s_attr.dr           = 0x0;
-	g_s_attr.sr           = 0x0;
-	g_s_attr.rr           = 0x0;
-	g_s_attr.sl           = 0xf;
+	g_s_attr.pitch		= 0x1000;
+	g_s_attr.addr		 = l_vag1_spu_addr;
+	g_s_attr.a_mode	   = SPU_VOICE_LINEARIncN;
+	g_s_attr.s_mode	   = SPU_VOICE_LINEARIncN;
+	g_s_attr.r_mode	   = SPU_VOICE_LINEARDecN;
+	g_s_attr.ar		   = 0x0;
+	g_s_attr.dr		   = 0x0;
+	g_s_attr.sr		   = 0x0;
+	g_s_attr.rr		   = 0x0;
+	g_s_attr.sl		   = 0xf;
 
 	SpuSetVoiceAttr (&g_s_attr);
 }
@@ -120,7 +120,7 @@ void audioChannelConfigure() {
 
 }
 
-void audioFree(unsigned long sound_address) {
+void audioFree(u_long sound_address) {
 	SpuFree(sound_address);
 }
 
@@ -131,25 +131,25 @@ Image createImage(unsigned char imageData[]) {
 	GsGetTimInfo ((u_long *)(imageData+4),&image.tim_data);
 
 	// Load the image into the frame buffer
-	image.rect.x = image.tim_data.px;            	// tim start X coord to put image data in frame buffer
-	image.rect.y = image.tim_data.py;            	// tim start Y coord to put image data in frame buffer
-	image.rect.w = image.tim_data.pw;            	// data width
-	image.rect.h = image.tim_data.ph;            	// data height
+	image.rect.x = image.tim_data.px;				// tim start X coord to put image data in frame buffer
+	image.rect.y = image.tim_data.py;				// tim start Y coord to put image data in frame buffer
+	image.rect.w = image.tim_data.pw;				// data width
+	image.rect.h = image.tim_data.ph;				// data height
 	LoadImage(&image.rect, image.tim_data.pixel);
 
 	// Load the CLUT into the frame buffer
-	image.crect.x = image.tim_data.cx;            	// x pos to put CLUT in frame buffer
-	image.crect.y = image.tim_data.cy;           	// y pos to put CLUT in frame buffer
-	image.crect.w = image.tim_data.cw;            	// width of CLUT
-	image.crect.h = image.tim_data.ch;            	// height of CLUT
+	image.crect.x = image.tim_data.cx;				// x pos to put CLUT in frame buffer
+	image.crect.y = image.tim_data.cy;		   	// y pos to put CLUT in frame buffer
+	image.crect.w = image.tim_data.cw;				// width of CLUT
+	image.crect.h = image.tim_data.ch;				// height of CLUT
 	LoadImage(&image.crect, image.tim_data.clut);
 
 	// Initialize sprite
 	image.sprite.attribute = 0x1000000; 			// (0x1 = 8-bit, 0x2 = 16-bit)
-	image.sprite.x = 0;                         	// draw at x coord
-	image.sprite.y = 0;                          	// draw at y coord
-	image.sprite.w = image.tim_data.pw * 2;         // width of sprite
-	image.sprite.h = image.tim_data.ph;             // height of sprite
+	image.sprite.x = 0;						 	// draw at x coord
+	image.sprite.y = 0;						  	// draw at y coord
+	image.sprite.w = image.tim_data.pw * 2;		 // width of sprite
+	image.sprite.h = image.tim_data.ph;			 // height of sprite
 
 	image.sprite.tpage = GetTPage(
 			1,   								// 0=4-bit, 1=8-bit, 2=16-bit
@@ -163,13 +163,13 @@ Image createImage(unsigned char imageData[]) {
 	image.sprite.b = 128;							// color blue blend
 	image.sprite.u=(image.tim_data.px - 320) * 2;   // position within timfile for sprite
 	image.sprite.v=image.tim_data.py;				// position within timfile for sprite
-	image.sprite.cx = image.tim_data.cx;            // CLUT location x
-	image.sprite.cy = image.tim_data.cy;            // CLUT location y
-	image.sprite.mx = 0;                            // rotation x coord
-	image.sprite.my = 0;                            // rotation y coord
-	image.sprite.scalex = ONE;                      // scale x (ONE = 100%)
-	image.sprite.scaley = ONE;                      // scale y (ONE = 100%)
-	image.sprite.rotate = 0;                        // rotation
+	image.sprite.cx = image.tim_data.cx;			// CLUT location x
+	image.sprite.cy = image.tim_data.cy;			// CLUT location y
+	image.sprite.mx = 0;							// rotation x coord
+	image.sprite.my = 0;							// rotation y coord
+	image.sprite.scalex = ONE;					  // scale x (ONE = 100%)
+	image.sprite.scaley = ONE;					  // scale y (ONE = 100%)
+	image.sprite.rotate = 0;						// rotation
 
 	return image;
 }
@@ -195,7 +195,7 @@ Line createLine(Color color, int x1, int y1, int x2, int y2) {
 }
 
 Box createBox(Color color, int x1, int y1, int x2, int y2) {
-	Line top    = createLine(color, x1, y1, x2, y1);
+	Line top	= createLine(color, x1, y1, x2, y1);
 	Line bottom = createLine(color, x1, y2, x2, y2);
 	Line left   = createLine(color, x1, y1, x1, y2);
 	Line right  = createLine(color, x2, y1, x2, y2);
@@ -248,19 +248,19 @@ void drawImage(Image image) {
 //Set the screen mode to either SCREEN_MODE_PAL or SCREEN_MODE_NTSC
 void setScreenMode(int mode) {
 	if (mode == SCREEN_MODE_PAL) { // SCEE string address
-    	// PAL MODE
-    	SCREEN_WIDTH = 320;
-    	SCREEN_HEIGHT = 256;
-    	if (DISPLAY_SERVICE_MODE) printf("Setting the PlayStation Video Mode to (PAL %dx%d)\n", SCREEN_WIDTH, SCREEN_HEIGHT, ")");
-    	SetVideoMode(1);
-    	if (DISPLAY_SERVICE_MODE) printf("Video Mode is (%d)\n", GetVideoMode());
+		// PAL MODE
+		SCREEN_WIDTH = 320;
+		SCREEN_HEIGHT = 256;
+		if (DISPLAY_SERVICE_MODE) printf("Setting the PlayStation Video Mode to (PAL %dx%d)\n", SCREEN_WIDTH, SCREEN_HEIGHT, ")");
+		SetVideoMode(1);
+		if (DISPLAY_SERVICE_MODE) printf("Video Mode is (%d)\n", GetVideoMode());
    	} else {
-     	// NTSC MODE
-     	SCREEN_WIDTH = 320;
-     	SCREEN_HEIGHT = 240;
-     	if (DISPLAY_SERVICE_MODE) printf("Setting the PlayStation Video Mode to (NTSC %dx%d)\n", SCREEN_WIDTH, SCREEN_HEIGHT, ")");
-     	SetVideoMode(0);
-     	if (DISPLAY_SERVICE_MODE) printf("Video Mode is (%d)\n", GetVideoMode());
+	 	// NTSC MODE
+	 	SCREEN_WIDTH = 320;
+	 	SCREEN_HEIGHT = 240;
+	 	if (DISPLAY_SERVICE_MODE) printf("Setting the PlayStation Video Mode to (NTSC %dx%d)\n", SCREEN_WIDTH, SCREEN_HEIGHT, ")");
+	 	SetVideoMode(0);
+	 	if (DISPLAY_SERVICE_MODE) printf("Video Mode is (%d)\n", GetVideoMode());
    }
 	GsInitGraph(SCREEN_WIDTH, SCREEN_HEIGHT, GsINTER|GsOFSGPU, 1, 0);
 	GsDefDispBuff(0, 0, 0, SCREEN_HEIGHT);
@@ -271,25 +271,25 @@ void setBackgroundColor(Color color) {
 }
 
 void initializeOrderingTable(){
-    GsClearOt(0,0,&orderingTable[GsGetActiveBuff()]);
+	GsClearOt(0,0,&orderingTable[GsGetActiveBuff()]);
 
-    // initialise the ordering tables
-    orderingTable[0].length = OT_LENGTH;
-    orderingTable[1].length = OT_LENGTH;
-    orderingTable[0].org = minorOrderingTable[0];
-    orderingTable[1].org = minorOrderingTable[1];
+	// initialise the ordering tables
+	orderingTable[0].length = OT_LENGTH;
+	orderingTable[1].length = OT_LENGTH;
+	orderingTable[0].org = minorOrderingTable[0];
+	orderingTable[1].org = minorOrderingTable[1];
 
-    GsClearOt(0,0,&orderingTable[0]);
-    GsClearOt(0,0,&orderingTable[1]);
+	GsClearOt(0,0,&orderingTable[0]);
+	GsClearOt(0,0,&orderingTable[1]);
 }
 
 void clearVRAM() {
-    RECT rectTL;
-    setRECT(&rectTL, 0, 0, 1024, 512);
-    ClearImage2(&rectTL, 0, 0, 0);
-    DrawSync(0);
+	RECT rectTL;
+	setRECT(&rectTL, 0, 0, 1024, 512);
+	ClearImage2(&rectTL, 0, 0, 0);
+	DrawSync(0);
 	VSync(0);
-    return;
+	return;
 }
 
 void initializeScreen() {
