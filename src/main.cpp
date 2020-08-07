@@ -22,7 +22,9 @@
 #include <images/img_ground.tim.h>
 #include <images/img_pipe.tim.h>
 #include <images/img_pipe_reversed.tim.h>
-#include "BirdImpl.h"
+#include <images/img_bird_f1.tim.h>
+#include <images/img_bird_f2.tim.h>
+#include <images/img_bird_f3.tim.h>
 
 void initialize();
 
@@ -42,7 +44,7 @@ Image ground;
 Image pipe;
 Image pipeReversed;
 //Image restart;
-//Image birdFrames[3];
+Image birdFrames[3];
 float frame = 0;
 float groundDisposition = 0;
 short groundDispositionMax = 13;
@@ -168,12 +170,17 @@ void initialize() {
 /** Pipes end*/
 
 
-//	for (int i = 0; i < 3; i++) {
-//		birdFrames[i].sprite.mx = 0;
-//		birdFrames[i].sprite.my = (short) (birdFrames[i].sprite.h / 2);
-//		birdFrames[i].sprite.x = (short) (DisplayService::SCREEN_WIDTH / 2 - (birdFrames[i].sprite.w / 2));
-//		birdFrames[i].sprite.y = (short) (DisplayService::SCREEN_HEIGHT / 2);
-//	}
+	birdFrames[0] = DisplayService::createImage(img_bird_f1_tim);
+	birdFrames[1] = DisplayService::createImage(img_bird_f2_tim);
+	birdFrames[2] = DisplayService::createImage(img_bird_f3_tim);
+
+
+	for (int i = 0; i < 3; i++) {
+		birdFrames[i].sprite.mx = 0;
+		birdFrames[i].sprite.my = (short) (birdFrames[i].sprite.h / 2);
+		birdFrames[i].sprite.x = (short) (DisplayService::SCREEN_WIDTH / 2 - (birdFrames[i].sprite.w / 2));
+		birdFrames[i].sprite.y = (short) (DisplayService::SCREEN_HEIGHT / 2);
+	}
 
 	resetGame();
 
@@ -212,16 +219,16 @@ void BirdUpdate() {
 
 		// set Position
 
-//		for (int i = 0; i < 3; i++) {
-//			birdFrames[i].sprite.y = (short) fBirdPosition;
-//		}
+		for (int i = 0; i < 3; i++) {
+			birdFrames[i].sprite.y = (short) fBirdPosition;
+		}
 
-//		for (int i = 0; i < 5; i++) {
-//			if (getPipePosition(i) == floor(birdFrames[0].sprite.x + (birdFrames[0].sprite.w / 2)) ) {
-//				AudioService::audioPlay(SPU_1CH);
-//				coinCount++;
-//			}
-//		}
+		for (int i = 0; i < 5; i++) {
+			if (getPipePosition(i) == floor(birdFrames[0].sprite.x + (birdFrames[0].sprite.w / 2)) ) {
+				AudioService::audioPlay(SPU_1CH);
+				coinCount++;
+			}
+		}
 	}
 }
 
@@ -331,7 +338,7 @@ void draw() {
 
 	drawGround();
 	drawPipes();
-//	DisplayService::drawImage(birdFrames[(int) floor(frame)]);
+	DisplayService::drawImage(birdFrames[(int) floor(frame)]);
 	drawLeaves();
 	drawBuildings();
 	drawClouds();
