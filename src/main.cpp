@@ -279,13 +279,14 @@ void draw() {
 	}
 
 	sprintf(&scoreText[0], "%d", coinCount);
-
+	// TOP
 	drawGround();
 	drawPipes();
 	bird.draw();
 	drawLeaves();
 	drawBuildings();
 	drawClouds();
+	// BOTTOM
 }
 
 
