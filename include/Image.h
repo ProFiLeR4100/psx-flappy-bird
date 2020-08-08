@@ -1,8 +1,8 @@
 #include <LIBGPU.H>
 #include <LIBGS.H>
 
-#ifndef IMAGE_STRUCT
-#define IMAGE_STRUCT
+#ifndef IMAGE_H
+#define IMAGE_H
 
 struct Image {
 	RECT rect;
@@ -11,5 +11,5 @@ struct Image {
 	GsSPRITE sprite;
 };
 
-#endif // IMAGE_STRUCT
+#endif // IMAGE_H
 

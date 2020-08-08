@@ -1,5 +1,5 @@
-#ifndef COLOR_STRUCT
-#define COLOR_STRUCT
+#ifndef COLOR_H
+#define COLOR_H
 
 typedef struct {
 	int r;
@@ -7,4 +7,4 @@ typedef struct {
 	int b;
 } Color;
 
-#endif // COLOR_STRUCT
+#endif // COLOR_H

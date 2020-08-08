@@ -1,8 +1,8 @@
 #include <LIBGTE.H>
 #include "Vector2F.h"
 
-#ifndef PHYSICS_SERVICE_H_H
-#define PHYSICS_SERVICE_H_H
+#ifndef PHYSICS_SERVICE_H
+#define PHYSICS_SERVICE_H
 
 struct PhysicsService {
 	static const float fGravity = 100.0f;
@@ -20,4 +20,4 @@ struct PhysicsService {
 	}
 };
 
-#endif // PHYSICS_SERVICE_H_H
+#endif // PHYSICS_SERVICE_H

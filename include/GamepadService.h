@@ -1,3 +1,6 @@
+#ifndef GAMEPAD_SERVICE_H
+#define GAMEPAD_SERVICE_H
+
 struct GamepadService {
 	static int SysPad;
 	static int SysPadT;
@@ -68,3 +71,5 @@ struct GamepadService {
 
 	static int Pad2Select();
 };
+
+#endif // GAMEPAD_SERVICE_H

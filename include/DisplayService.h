@@ -5,6 +5,9 @@
 #include <ColorHelper.h>
 #include "Image.h"
 
+#ifndef DISPLAY_SERVICE_H
+#define DISPLAY_SERVICE_H
+
 #define SCREEN_MODE_PAL 0
 #define SCREEN_MODE_NTSC 1
 #define DISPLAY_SERVICE_MODE 1
@@ -40,3 +43,4 @@ struct DisplayService {
 
 	static Image scaleImage(Image image, short scaleX, short scaleY);
 };
+#endif // DISPLAY_SERVICE_H
