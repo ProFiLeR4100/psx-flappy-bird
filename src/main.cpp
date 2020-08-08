@@ -168,7 +168,7 @@ void BirdUpdate() {
 
 		// set Position
 		for (int i = 0; i < 5; i++) {
-			if (getPipePosition(i) == floor(birdFrames[0].sprite.x + (birdFrames[0].sprite.w / 2)) ) {
+			if (getPipePosition(i) == floor(bird.position.vx + (bird.birdFrames[bird.currentFrame].sprite.w / 2)) ) {
 				AudioService::audioPlay(SPU_1CH);
 				coinCount++;
 			}

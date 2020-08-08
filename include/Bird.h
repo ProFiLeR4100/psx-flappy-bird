@@ -19,6 +19,7 @@ struct Bird : GameObject {
 	float fWeight;
 	Image birdFrames[3];
 	float fFrame;
+	short currentFrame;
 	Vector2F position;
 };
 

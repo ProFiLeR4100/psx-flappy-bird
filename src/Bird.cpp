@@ -20,7 +20,7 @@ void Bird::draw() {
 		birdFrames[i].sprite.y = (short) position.vy;
 	}
 
-	DisplayService::drawImage(birdFrames[(int) floor(fFrame)]);
+	DisplayService::drawImage(birdFrames[currentFrame]);
 }
 
 void Bird::update(float fDeltaTime) {
@@ -28,6 +28,7 @@ void Bird::update(float fDeltaTime) {
 	if (fFrame >= 3.0) {
 		fFrame = 0;
 	}
+	currentFrame = (int) floor(fFrame);
 }
 
 void Bird::updatePhysics(float fDeltaTime) {
