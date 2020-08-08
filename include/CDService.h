@@ -6,8 +6,7 @@
 #ifndef CD_SERVICE_H
 #define CD_SERVICE_H
 
-class CDService {
-public:
+struct CDService {
 	static void open();
 	static void close();
 	static void read(unsigned char* file_path, u_long** file);

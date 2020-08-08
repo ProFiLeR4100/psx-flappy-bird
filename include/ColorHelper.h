@@ -3,8 +3,7 @@
 #ifndef COLOR_HELPER_H
 #define COLOR_HELPER_H
 
-class ColorHelper {
-public:
+struct ColorHelper {
 	static Color fromRGB(int r, int g, int b);
 };
 

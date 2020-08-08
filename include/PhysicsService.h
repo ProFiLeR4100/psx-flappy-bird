@@ -1,0 +1,23 @@
+#include <LIBGTE.H>
+#include "Vector2F.h"
+
+#ifndef PHYSICS_SERVICE_H_H
+#define PHYSICS_SERVICE_H_H
+
+struct PhysicsService {
+	static const float fGravity = 100.0f;
+
+	static void updatePosition(float* fAcceleration, float* fVelocity, float* fWeight, Vector2F* position, float fElapsedTime) {
+		*fAcceleration += fGravity * fElapsedTime;
+
+		if (*fAcceleration >= fGravity) {
+			*fAcceleration = fGravity;
+		}
+
+		*fVelocity += *fAcceleration * fElapsedTime;
+
+		position->vy += *fVelocity * fElapsedTime;
+	}
+};
+
+#endif // PHYSICS_SERVICE_H_H

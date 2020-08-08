@@ -4,8 +4,7 @@
 #ifndef IMAGE_STRUCT
 #define IMAGE_STRUCT
 
-class Image {
-public:
+struct Image {
 	RECT rect;
 	RECT crect;
 	GsIMAGE tim_data;

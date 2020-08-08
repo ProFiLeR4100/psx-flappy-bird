@@ -22,9 +22,8 @@
 #include <images/img_ground.tim.h>
 #include <images/img_pipe.tim.h>
 #include <images/img_pipe_reversed.tim.h>
-#include <images/img_bird_f1.tim.h>
-#include <images/img_bird_f2.tim.h>
-#include <images/img_bird_f3.tim.h>
+#include <PhysicsService.h>
+#include "Bird.h"
 
 void initialize();
 
@@ -55,14 +54,11 @@ short buildingsDispositionMax = 82;
 float leavesDisposition = 0;
 short leavesDispositionMax = 36;
 short pipeDisplacement = 0;
-float fGravity = 100.0f;
-float fBirdPosition = 0;
-float fBirdVelocity = 0;
-float fBirdAcceleration = 0;
 int pipes[5];
 bool isGameOver = false;
 bool isPlaying = true;
 int coinCount = 0;
+Bird bird;
 //List<int> intList;
 
 int main() {
@@ -86,10 +82,8 @@ void resetGame() {
 	buildingsDisposition = 0;
 	leavesDisposition = 0;
 	pipeDisplacement = 0;
-	fBirdVelocity = 0;
-	fBirdAcceleration = 0;
+	bird.reset();
 
-	fBirdPosition = (short) (DisplayService::SCREEN_HEIGHT / 2);
 	pipeDisplacement = -1 * DisplayService::SCREEN_WIDTH * 2;
 
 	for (int i = 0; i < 5; i++) {
@@ -102,27 +96,8 @@ void initialize() {
 	GamepadService::initialize();
 	AudioService::initialize();
 
-//	std::list<int> l;
-
 	CDService::open();
 	CDService::close();
-//	for(int i = 0; i < 10;  i++) {
-//		intList.insertNewNode(10 - i); //inserts value from array to the linked list in the proper positions
-//	}
-//	printf("\n\nTHIS IS WORKING SHIT\n\n");
-//	for(int i = 0; i < 10;  i++) {
-//		printf("list[%d] = %d\n", i, intList.search(i)->getData());
-//	}
-
-
-//	for (int i = 1; i <= 5; i++) {
-//		g1.push_back(i);
-//	}
-//
-//	for (std::vector<int>::iterator it = g1.begin(); it != g1.end(); ++it)
-//		printf("g1 %d\n", *it);
-//	}
-
 
 	AudioService::audioTransferVagToSPU(&jump[0], jump_size, SPU_0CH, 0xffff);
 	AudioService::audioTransferVagToSPU(&passed[0], passed_size, SPU_1CH, 0x0aff);
@@ -169,19 +144,6 @@ void initialize() {
 	pipeReversed.sprite.my = pipeReversed.sprite.h;
 /** Pipes end*/
 
-
-	birdFrames[0] = DisplayService::createImage(img_bird_f1_tim);
-	birdFrames[1] = DisplayService::createImage(img_bird_f2_tim);
-	birdFrames[2] = DisplayService::createImage(img_bird_f3_tim);
-
-
-	for (int i = 0; i < 3; i++) {
-		birdFrames[i].sprite.mx = 0;
-		birdFrames[i].sprite.my = (short) (birdFrames[i].sprite.h / 2);
-		birdFrames[i].sprite.x = (short) (DisplayService::SCREEN_WIDTH / 2 - (birdFrames[i].sprite.w / 2));
-		birdFrames[i].sprite.y = (short) (DisplayService::SCREEN_HEIGHT / 2);
-	}
-
 	resetGame();
 
 	DisplayService::setBackgroundColor(ColorHelper::fromRGB(112, 197, 206));
@@ -192,37 +154,19 @@ short getPipePosition(int num) {
 }
 
 void BirdUpdate() {
-	// Animation
-	frame += 0.25f;
-	if (frame >= 3.0) {
-		frame = 0;
-	}
-
 	// physics and control
 	float fElapsedTime = 0.016f; // 60Hz => 1 sec / 60Hz = 0.01(6)
 
 	if(isPlaying) {
-		if (GamepadService::padCheckPressed(GamepadService::Pad1Cross()) && fBirdVelocity >= fGravity / 20.0f) {
-			AudioService::audioPlay(SPU_0CH);
-			fBirdAcceleration = 0.0f;
-			fBirdVelocity = -fGravity / 2.0f;
-		} else {
-			fBirdAcceleration += fGravity * fElapsedTime;
+		if (GamepadService::padCheckPressed(GamepadService::Pad1Cross())
+				&& bird.fVelocity >= PhysicsService::fGravity / 20.0f) { // is falling
+			bird.flap();
 		}
 
-		if (fBirdAcceleration >= fGravity) {
-			fBirdAcceleration = fGravity;
-		}
-
-		fBirdVelocity += fBirdAcceleration * fElapsedTime;
-		fBirdPosition += fBirdVelocity * fElapsedTime;
+		bird.update(fElapsedTime);
+		PhysicsService::updatePosition(&bird.fAcceleration, &bird.fVelocity, &bird.fWeight, &bird.position, fElapsedTime);
 
 		// set Position
-
-		for (int i = 0; i < 3; i++) {
-			birdFrames[i].sprite.y = (short) fBirdPosition;
-		}
-
 		for (int i = 0; i < 5; i++) {
 			if (getPipePosition(i) == floor(birdFrames[0].sprite.x + (birdFrames[0].sprite.w / 2)) ) {
 				AudioService::audioPlay(SPU_1CH);
@@ -338,7 +282,7 @@ void draw() {
 
 	drawGround();
 	drawPipes();
-	DisplayService::drawImage(birdFrames[(int) floor(frame)]);
+	bird.draw();
 	drawLeaves();
 	drawBuildings();
 	drawClouds();

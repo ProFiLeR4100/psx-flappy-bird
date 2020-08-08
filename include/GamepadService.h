@@ -1,5 +1,4 @@
-class GamepadService {
-public:
+struct GamepadService {
 	static int SysPad;
 	static int SysPadT;
 

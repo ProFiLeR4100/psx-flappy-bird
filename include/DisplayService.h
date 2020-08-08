@@ -11,8 +11,7 @@
 #define OT_LENGTH 1
 #define PACKETMAX 500
 
-class DisplayService {
-public:
+struct DisplayService {
 	static Color systemBackgroundColor;
 	static int SCREEN_WIDTH;
 	static int SCREEN_HEIGHT;

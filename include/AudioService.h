@@ -3,8 +3,7 @@
 #ifndef AUDIO_SERVICE_H
 #define AUDIO_SERVICE_H
 
-class AudioService {
-public:
+struct AudioService {
 	static void initialize();
 
 	static void audioTransferVagToSPU(unsigned char *sound, unsigned long sound_size, unsigned long int voice_channel, short volume);

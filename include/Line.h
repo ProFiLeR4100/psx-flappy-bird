@@ -3,8 +3,7 @@
 #ifndef LINE_STRUCT
 #define LINE_STRUCT
 
-class Line {
-public:
+struct Line {
 	LINE_F2 line;
 	int type;
 };

@@ -3,8 +3,7 @@
 #ifndef BOX_STRUCT
 #define BOX_STRUCT
 
-class Box {
-public:
+struct Box {
 	Line line[4];
 	int type;
 };
