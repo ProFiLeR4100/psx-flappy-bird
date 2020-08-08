@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.6)
-project(untitled)
+project(PSxFlappyBird VERSION 0.1)
 
 set(CMAKE_CXX_STANDARD 98)
 
@@ -15,17 +15,10 @@ include_directories(${PSYQ_INCLUDES})
 
 FILE(GLOB SOURCE_FILES ${SOURCES}/*.cpp)
 
-add_executable(untitled ${SOURCE_FILES})
-execute_process(
-        COMMAND echo  "test1"
-        COMMAND touch "test1"
-        COMMAND sleep 4s
-        COMMAND echo  "test2"
-        COMMAND touch "test2"
-        COMMAND sleep 4s
-        COMMAND echo  "test4"
+add_custom_target(
+        PSxFlappyBird
+        COMMAND psymake
 )
-
 
 
 #CHEARS!
