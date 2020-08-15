@@ -15,6 +15,8 @@ include_directories(${PSYQ_INCLUDES})
 
 FILE(GLOB SOURCE_FILES ${SOURCES}/*.cpp)
 
+add_executable(untitled ${SOURCE_FILES})
+
 add_custom_target(
         PSxFlappyBird
         COMMAND psymake

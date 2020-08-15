@@ -5,7 +5,7 @@
 #define PHYSICS_SERVICE_H
 
 struct PhysicsService {
-	static const float fGravity = 100.0f;
+	static float fGravity;
 
 	static void updatePosition(float* fAcceleration, float* fVelocity, float* fWeight, Vector2F* position, float fElapsedTime) {
 		*fAcceleration += fGravity * fElapsedTime;

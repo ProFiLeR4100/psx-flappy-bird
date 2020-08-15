@@ -2,24 +2,25 @@
 #include "GamepadService.h"
 #include "AudioService.h"
 #include "DisplayService.h"
-#include "List.h"
 #include <LIBSPU.H>
 #include <LIBGTE.H>
 #include <ColorHelper.h>
 #include <LIBMATH.H>
+#include <STDIO.H>
 #include <KERNEL.H>
 #include <LIBAPI.H>
 #include <RAND.H>
 #include <LIBGS.H>
+#include "Buildings.h"
+#include "Clouds.h"
+#include "Leaves.h"
+#include "Ground.h"
+#include "GameObjectService.h"
 #include "CDService.h"
 #include "sounds/jump.h"
 #include "sounds/passed.h"
-#include "images/img_buildings.tim.h"
-#include "images/img_clouds.tim.h"
-#include "images/img_leaves.tim.h"
 #include "images/img_logo.tim.h"
 #include "images/img_game_over.tim.h"
-#include "images/img_ground.tim.h"
 #include "images/img_pipe.tim.h"
 #include "images/img_pipe_reversed.tim.h"
 #include "PhysicsService.h"
@@ -32,27 +33,24 @@ void update();
 void draw();
 
 /** Parallax zone */
-Image buildings;
-Image clouds;
-Image leaves;
+Buildings buildings;
+Clouds clouds;
+Leaves leaves;
+Ground ground;
+//Image buildings;
+//Image clouds;
+//Image leaves;
 /** Parallax zone end */
 
 Image logo;
 Image gameOver;
-Image ground;
+//Image ground;
 Image pipe;
 Image pipeReversed;
 //Image restart;
-Image birdFrames[3];
 float frame = 0;
-float groundDisposition = 0;
-short groundDispositionMax = 13;
-float cloudsDisposition = 0;
-short cloudsDispositionMax = 80;
-float buildingsDisposition = 0;
-short buildingsDispositionMax = 82;
-float leavesDisposition = 0;
-short leavesDispositionMax = 36;
+
+
 short pipeDisplacement = 0;
 int pipes[5];
 bool isGameOver = false;
@@ -72,15 +70,15 @@ int main() {
 }
 
 int randomPipePosition() {
-	return (-35 + (75 * _ABS(rand()) / RAND_MAX)) + DisplayService::SCREEN_HEIGHT / 2 - ground.sprite.h;
+	return (-35 + (75 * _ABS(rand()) / RAND_MAX)) + DisplayService::SCREEN_HEIGHT / 2 - ground.image.sprite.h;
 }
 
 void resetGame() {
 	coinCount = 0;
-	groundDisposition = 0;
-	cloudsDisposition = 0;
-	buildingsDisposition = 0;
-	leavesDisposition = 0;
+	ground.reset();
+	clouds.reset();
+	buildings.reset();
+	leaves.reset();
 	pipeDisplacement = 0;
 	bird.reset();
 
@@ -104,18 +102,6 @@ void initialize() {
 
 	AudioService::setVolume(SPU_1CH, 0);
 
-/** Parallax zone */
-	buildings = DisplayService::createImage(img_buildings_tim);
-	buildings.sprite.my = buildings.sprite.h;
-	buildings.sprite.y = (short) (DisplayService::SCREEN_HEIGHT - 30);
-	clouds = DisplayService::createImage(img_clouds_tim);
-	clouds.sprite.my = clouds.sprite.h;
-	clouds.sprite.y = (short) (DisplayService::SCREEN_HEIGHT - 30);
-	leaves = DisplayService::createImage(img_leaves_tim);
-	leaves.sprite.my = leaves.sprite.h;
-	leaves.sprite.y = (short) (DisplayService::SCREEN_HEIGHT - 30);
-/** Parallax zone end */
-
 	logo = DisplayService::createImage(img_logo_tim);
 	logo.sprite.mx = (short) (logo.sprite.w / 2);
 	logo.sprite.my = (short) (logo.sprite.h / 2);
@@ -128,11 +114,6 @@ void initialize() {
 	gameOver.sprite.x = (short) (DisplayService::SCREEN_WIDTH / 2);
 	gameOver.sprite.y = (short) (DisplayService::SCREEN_HEIGHT / 2);
 
-	ground = DisplayService::createImage(img_ground_tim);
-	ground.sprite.mx = 0;
-	ground.sprite.my = ground.sprite.h;
-	ground.sprite.y = (short) (DisplayService::SCREEN_HEIGHT);
-	ground.sprite.x = 0;
 
 /** Pipes */
 	pipe = DisplayService::createImage(img_pipe_tim);
@@ -143,6 +124,28 @@ void initialize() {
 	pipeReversed.sprite.mx = (short) (pipeReversed.sprite.w / 2);
 	pipeReversed.sprite.my = pipeReversed.sprite.h;
 /** Pipes end*/
+
+	if (!GameObjectService::enableGameObject(&ground)) {
+		printf("Ground is not enabled.");
+	}
+
+//	drawPipes();
+
+	if (!GameObjectService::enableGameObject(&bird)) {
+		printf("Bird is not enabled.");
+	}
+
+	if (!GameObjectService::enableGameObject(&leaves)) {
+		printf("Leaves is not enabled.");
+	}
+
+	if (!GameObjectService::enableGameObject(&buildings)) {
+		printf("Buildings is not enabled.");
+	}
+
+	if (!GameObjectService::enableGameObject(&clouds)) {
+		printf("Clouds is not enabled.");
+	}
 
 	resetGame();
 
@@ -157,27 +160,21 @@ void BirdUpdate() {
 	// physics and control
 	float fElapsedTime = 0.016f; // 60Hz => 1 sec / 60Hz = 0.01(6)
 
-	if(isPlaying) {
-		if (GamepadService::padCheckPressed(GamepadService::Pad1Cross())
-				&& bird.fVelocity >= PhysicsService::fGravity / 20.0f) { // is falling
-			bird.flap();
-		}
+	if (isPlaying) {
+		GameObjectService::update(fElapsedTime);
+		GameObjectService::updatePhysics(fElapsedTime);
 
-		bird.update(fElapsedTime);
-		PhysicsService::updatePosition(&bird.fAcceleration, &bird.fVelocity, &bird.fWeight, &bird.position, fElapsedTime);
-
-		// set Position
-		for (int i = 0; i < 5; i++) {
-			if (getPipePosition(i) == floor(bird.position.vx + (bird.birdFrames[bird.currentFrame].sprite.w / 2)) ) {
-				AudioService::audioPlay(SPU_1CH);
-				coinCount++;
-			}
-		}
+//		for (int i = 0; i < 5; i++) {
+//			if (getPipePosition(i) == floor(bird.position.vx + (bird.birdFrames[bird.currentFrame].sprite.w / 2)) ) {
+//				AudioService::audioPlay(SPU_1CH);
+//				coinCount++;
+//			}
+//		}
 	}
 }
 
 void PipesUpdate() {
-	if(isPlaying) {
+	if (isPlaying) {
 		pipeDisplacement += 1;
 		if (pipeDisplacement > pipe.sprite.w * 2) {
 			pipeDisplacement = 0;
@@ -196,26 +193,6 @@ void update() {
 	BirdUpdate();
 
 	PipesUpdate();
-
-	groundDisposition += 1;
-	if (groundDisposition > groundDispositionMax) {
-		groundDisposition = 0;
-	}
-
-	cloudsDisposition += 0.25;
-	if (cloudsDisposition > cloudsDispositionMax) {
-		cloudsDisposition = 0;
-	}
-
-	buildingsDisposition += 0.5;
-	if (buildingsDisposition > buildingsDispositionMax) {
-		buildingsDisposition = 0;
-	}
-
-	leavesDisposition += 0.75;
-	if (leavesDisposition > leavesDispositionMax) {
-		leavesDisposition = 0;
-	}
 }
 
 void drawPipe(unsigned int x, unsigned int y, short spaceBetween) {
@@ -235,34 +212,6 @@ void drawPipes() {
 	}
 }
 
-void drawGround() {
-	for (int i = 0; i < 2; i++) {
-		ground.sprite.x = (short) floor(i * ground.sprite.w - groundDisposition);
-		DisplayService::drawImage(ground);
-	}
-}
-
-void drawBuildings() {
-	for (int i = 0; i < 2; i++) {
-		buildings.sprite.x = (short) floor(i * buildings.sprite.w - buildingsDisposition);
-		DisplayService::drawImage(buildings);
-	}
-}
-
-void drawClouds() {
-	for (int i = 0; i < 2; i++) {
-		clouds.sprite.x = (short) floor(i * clouds.sprite.w - cloudsDisposition);
-		DisplayService::drawImage(clouds);
-	}
-}
-
-void drawLeaves() {
-	for (int i = 0; i < 2; i++) {
-		leaves.sprite.x = (short) floor(i * leaves.sprite.w - leavesDisposition);
-		DisplayService::drawImage(leaves);
-	}
-}
-
 char scoreText[30];
 
 void drawScore() {
@@ -270,22 +219,18 @@ void drawScore() {
 }
 
 void draw() {
-	if(isGameOver) {
+	if (isGameOver) {
 		DisplayService::drawImage(gameOver);
 	}
 
-	if(!isPlaying) {
+	if (!isPlaying) {
 		DisplayService::drawImage(logo);
 	}
 
 	sprintf(&scoreText[0], "%d", coinCount);
 	// TOP
-	drawGround();
 	drawPipes();
-	bird.draw();
-	drawLeaves();
-	drawBuildings();
-	drawClouds();
+	GameObjectService::draw();
 	// BOTTOM
 }
 

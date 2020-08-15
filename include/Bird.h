@@ -1,13 +1,15 @@
 #include "GameObject.h"
 #include "Image.h"
+#include "Sprite.h"
+#include <STDIO.H>
 #include "Vector2F.h"
 
 #ifndef BIRD_H
 #define BIRD_H
 
-struct Bird : GameObject {
+class Bird : public Sprite {
+public:
 	void flap();
-
 
 	virtual void reset();
 	virtual void draw();
@@ -20,7 +22,6 @@ struct Bird : GameObject {
 	Image birdFrames[3];
 	float fFrame;
 	short currentFrame;
-	Vector2F position;
 };
 
 #endif // BIRD_H
