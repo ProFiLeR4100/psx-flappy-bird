@@ -30,7 +30,7 @@ void GameObjectService::updatePhysics(float fDeltaTime) {
 }
 
 bool GameObjectService::enableGameObject(GameObject* gameObject) {
-	return gameObjectList.insert(gameObjectList.getLength(), gameObject);
+	return gameObjectList.insertAtLayer(gameObject);
 }
 
 bool GameObjectService::disableGameObject(GameObject* gameObject) {

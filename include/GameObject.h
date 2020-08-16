@@ -3,6 +3,8 @@
 
 class GameObject {
 public:
+	int layer;
+
 	virtual void reset();
 	virtual void draw();
 	virtual void update(float fDeltaTime);
