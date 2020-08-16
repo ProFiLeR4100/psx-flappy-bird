@@ -4,6 +4,7 @@
 #include "GamepadService.h"
 #include "Bird.h"
 #include <STDIO.H>
+#include <MathHelper.h>
 #include "PhysicsService.h"
 #include "images/img_bird_f1.tim.h"
 #include "images/img_bird_f2.tim.h"
@@ -21,35 +22,25 @@ void Bird::draw() {
 }
 
 void Bird::update(float fDeltaTime) {
-//	if (GamepadService::padCheckPressed(GamepadService::Pad1Cross()) && fBirdVelocity >= fGravity / 20.0f) {
-//		AudioService::audioPlay(SPU_0CH);
-//		fBirdAcceleration = 0.0f;
-//		fBirdVelocity = -fGravity / 2.0f;
-//	} else {
-//		fBirdAcceleration += fGravity * fElapsedTime;
-//	}
-//
-//	if (fBirdAcceleration >= fGravity) {
-//		fBirdAcceleration = fGravity;
-//	}
-//
-//	fBirdVelocity += fBirdAcceleration * fElapsedTime;
-//	fBirdPosition += fBirdVelocity * fElapsedTime;
-
-//	Sprite::draw();
-
 	if (GamepadService::padCheckPressed(GamepadService::Pad1Cross())
 		&& fVelocity >= PhysicsService::fGravity / 20.0f) { // is falling
 		flap();
 	}
 
-	fFrame += 0.25f;
-	if (fFrame >= 3.0) {
-		fFrame = 0;
+	if(fVelocity < 0) {
+		fFrame += 0.25f;
+		if (fFrame >= 3.0) {
+			fFrame = 0;
+		}
+	} else {
+		fFrame = 1;
 	}
+
 	currentFrame = (int) floor(fFrame);
 
 	image = birdFrames[currentFrame];
+
+	image.sprite.rotate = map((int) clamp((int)fVelocity, -50, (int) PhysicsService::fGravity), (int) -50, (int) PhysicsService::fGravity, (int) -45, (int) 45) * ONE;
 }
 
 void Bird::updatePhysics(float fDeltaTime) {
@@ -59,21 +50,22 @@ void Bird::updatePhysics(float fDeltaTime) {
 		fAcceleration = PhysicsService::fGravity;
 	}
 
-
 	fVelocity += fAcceleration * fDeltaTime;
 	position.vy += fVelocity * fDeltaTime;
 	printf("Bird a/v/p: %d / %d / %d\n", (int) fAcceleration, (int) fVelocity, (int) position.vy);
 }
 
 void Bird::reset() {
+	position.vy = (short) DisplayService::SCREEN_HEIGHT/2;
+
 	birdFrames[0] = DisplayService::createImage(img_bird_f1_tim);
 	birdFrames[1] = DisplayService::createImage(img_bird_f2_tim);
 	birdFrames[2] = DisplayService::createImage(img_bird_f3_tim);
 
 	for (int i = 0; i < 3; i++) {
-		birdFrames[i].sprite.mx = 0;
+		birdFrames[i].sprite.mx = (short) (birdFrames[i].sprite.w / 2);
 		birdFrames[i].sprite.my = (short) (birdFrames[i].sprite.h / 2);
-		birdFrames[i].sprite.x = (short) (DisplayService::SCREEN_WIDTH / 2 - (birdFrames[i].sprite.w / 2));
+		birdFrames[i].sprite.x = (short) (DisplayService::SCREEN_WIDTH / 2 /*- (birdFrames[i].sprite.w / 2)*/);
 		birdFrames[i].sprite.y = (short) (DisplayService::SCREEN_HEIGHT / 2);
 	}
 

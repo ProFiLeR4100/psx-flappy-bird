@@ -3,6 +3,7 @@
 #include "Sprite.h"
 #include <STDIO.H>
 #include "Vector2F.h"
+#include <LIBGS.H>
 
 #ifndef BIRD_H
 #define BIRD_H
