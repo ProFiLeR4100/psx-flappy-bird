@@ -8,6 +8,7 @@ struct GameObjectList {
 	bool isEmpty() const;
 	int getLength() const;
 	bool insert(int index, GameObject* newItem);
+	bool insertAtLayer(GameObject* newItem);
 	GameObject* retrieve(int index);
 	bool remove(int index);
 private:
