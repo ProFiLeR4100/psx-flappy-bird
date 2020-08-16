@@ -115,6 +115,14 @@ void initialize() {
 	gameOver.sprite.y = (short) (DisplayService::SCREEN_HEIGHT / 2);
 
 
+
+	clouds.layer = 6;
+	buildings.layer = 5;
+	leaves.layer = 4;
+	bird.layer = 3;
+	// pipe 2
+	ground.layer = 1;
+
 /** Pipes */
 	pipe = DisplayService::createImage(img_pipe_tim);
 	pipe.sprite.mx = (short) (pipe.sprite.w / 2);
