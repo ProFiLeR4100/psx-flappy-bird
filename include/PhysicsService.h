@@ -1,5 +1,6 @@
 #include <LIBGTE.H>
 #include "Vector2F.h"
+#include <LIBGPU.H>
 
 #ifndef PHYSICS_SERVICE_H
 #define PHYSICS_SERVICE_H
@@ -7,17 +8,11 @@
 struct PhysicsService {
 	static float fGravity;
 
-	static void updatePosition(float* fAcceleration, float* fVelocity, float* fWeight, Vector2F* position, float fElapsedTime) {
-		*fAcceleration += fGravity * fElapsedTime;
+	static void updatePosition(float* fAcceleration, float* fVelocity, float* fWeight, Vector2F* position, float fElapsedTime);
 
-		if (*fAcceleration >= fGravity) {
-			*fAcceleration = fGravity;
-		}
+	static float sqEuclideanDistance(LINE_F2 line);
 
-		*fVelocity += *fAcceleration * fElapsedTime;
-
-		position->vy += *fVelocity * fElapsedTime;
-	}
+	static float sqPerpendicuralDistance(LINE_F2 line, Vector2F point);
 };
 
 #endif // PHYSICS_SERVICE_H

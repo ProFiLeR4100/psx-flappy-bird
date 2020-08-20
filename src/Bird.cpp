@@ -53,6 +53,13 @@ void Bird::updatePhysics(float fDeltaTime) {
 	fVelocity += fAcceleration * fDeltaTime;
 	position.vy += fVelocity * fDeltaTime;
 	printf("Bird a/v/p: %d / %d / %d\n", (int) fAcceleration, (int) fVelocity, (int) position.vy);
+
+//	LINE_F2 line;
+//	line.x0 = 0;
+//	line.x1 = (short) DisplayService::SCREEN_WIDTH;
+//	line.y0 = (short) DisplayService::SCREEN_HEIGHT;
+//	line.y1 = (short) DisplayService::SCREEN_HEIGHT;
+//	printf("SQ Distance: %d\n", (int) PhysicsService::sqPerpendicuralDistance(line, position));
 }
 
 void Bird::reset() {
