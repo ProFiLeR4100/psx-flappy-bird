@@ -9,10 +9,14 @@ class Ground : public Sprite {
 private:
 	float groundDisposition;
 	short groundDispositionMax;
+	static Collider groundCollider;
 public:
 	virtual void reset();
+
 	virtual void draw();
+
 	virtual void update(float fDeltaTime);
+
 	virtual void updatePhysics(float fDeltaTime);
 };
 

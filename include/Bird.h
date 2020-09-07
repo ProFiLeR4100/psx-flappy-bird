@@ -5,6 +5,8 @@
 #include "Vector2F.h"
 #include <LIBGS.H>
 #include <LIBGPU.H>
+#include "CircleCollider.h"
+#include "ColliderType.h"
 
 #ifndef BIRD_H
 #define BIRD_H
@@ -14,8 +16,11 @@ public:
 	void flap();
 
 	virtual void reset();
+
 	virtual void draw();
+
 	virtual void update(float fDeltaTime);
+
 	virtual void updatePhysics(float fDeltaTime);
 
 	float fVelocity;
@@ -24,6 +29,9 @@ public:
 	Image birdFrames[3];
 	float fFrame;
 	short currentFrame;
+
+private:
+	static CircleCollider birdCollider;
 };
 
 #endif // BIRD_H

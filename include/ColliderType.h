@@ -1,0 +1,11 @@
+
+#ifndef COLLIDER_TYPE_H
+#define COLLIDER_TYPE_H
+
+enum ColliderType {
+	COLLIDER_TYPE_LINE = 0,
+	COLLIDER_TYPE_RECT = 1,
+	COLLIDER_TYPE_CIRCLE = 2
+};
+
+#endif

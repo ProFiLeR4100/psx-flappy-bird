@@ -11,6 +11,7 @@
 #include <LIBAPI.H>
 #include <RAND.H>
 #include <LIBGS.H>
+#include <GameMaster.h>
 #include "Buildings.h"
 #include "Clouds.h"
 #include "Leaves.h"
@@ -37,6 +38,7 @@ Buildings buildings;
 Clouds clouds;
 Leaves leaves;
 Ground ground;
+GameMaster gameMaster;
 //Image buildings;
 //Image clouds;
 //Image leaves;
@@ -49,6 +51,8 @@ Image pipe;
 Image pipeReversed;
 //Image restart;
 float frame = 0;
+
+Collider groundCollider;
 
 
 short pipeDisplacement = 0;
@@ -81,6 +85,12 @@ void resetGame() {
 	leaves.reset();
 	pipeDisplacement = 0;
 	bird.reset();
+
+	// todo: move collider initialization from main.cpp to corresponding classes
+	// todo-end
+
+	gameMaster.bird = &bird;
+	gameMaster.ground = &ground;
 
 	pipeDisplacement = -1 * DisplayService::SCREEN_WIDTH * 2;
 
@@ -122,6 +132,7 @@ void initialize() {
 	bird.layer = 3;
 	// pipe 2
 	ground.layer = 1;
+	gameMaster.layer = 0;
 
 /** Pipes */
 	pipe = DisplayService::createImage(img_pipe_tim);
@@ -155,6 +166,10 @@ void initialize() {
 		printf("Clouds is not enabled.");
 	}
 
+	if (!GameObjectService::enableGameObject(&gameMaster)) {
+		printf("GameMaster is not enabled.");
+	}
+
 	resetGame();
 
 	DisplayService::setBackgroundColor(ColorHelper::fromRGB(112, 197, 206));
@@ -171,6 +186,7 @@ void BirdUpdate() {
 	if (isPlaying) {
 		GameObjectService::update(fElapsedTime);
 		GameObjectService::updatePhysics(fElapsedTime);
+
 
 //		for (int i = 0; i < 5; i++) {
 //			if (getPipePosition(i) == floor(bird.position.vx + (bird.birdFrames[bird.currentFrame].sprite.w / 2)) ) {

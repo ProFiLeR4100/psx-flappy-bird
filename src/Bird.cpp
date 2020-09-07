@@ -10,6 +10,7 @@
 #include "images/img_bird_f2.tim.h"
 #include "images/img_bird_f3.tim.h"
 
+CircleCollider Bird::birdCollider;
 
 void Bird::flap() {
 	AudioService::audioPlay(SPU_0CH);
@@ -44,7 +45,7 @@ void Bird::update(float fDeltaTime) {
 }
 
 void Bird::updatePhysics(float fDeltaTime) {
-	fAcceleration += PhysicsService::fGravity * fDeltaTime;
+	fAcceleration += PhysicsService::fGravity * fWeight * fDeltaTime;
 
 	if (fAcceleration >= PhysicsService::fGravity) {
 		fAcceleration = PhysicsService::fGravity;
@@ -52,17 +53,11 @@ void Bird::updatePhysics(float fDeltaTime) {
 
 	fVelocity += fAcceleration * fDeltaTime;
 	position.vy += fVelocity * fDeltaTime;
-	printf("Bird a/v/p: %d / %d / %d\n", (int) fAcceleration, (int) fVelocity, (int) position.vy);
-
-//	LINE_F2 line;
-//	line.x0 = 0;
-//	line.x1 = (short) DisplayService::SCREEN_WIDTH;
-//	line.y0 = (short) DisplayService::SCREEN_HEIGHT;
-//	line.y1 = (short) DisplayService::SCREEN_HEIGHT;
-//	printf("SQ Distance: %d\n", (int) PhysicsService::sqPerpendicuralDistance(line, position));
 }
 
 void Bird::reset() {
+	fWeight = 1.0f;
+
 	position.vy = (short) DisplayService::SCREEN_HEIGHT/2;
 
 	birdFrames[0] = DisplayService::createImage(img_bird_f1_tim);
@@ -77,4 +72,9 @@ void Bird::reset() {
 	}
 
 	position.vx = (short) (DisplayService::SCREEN_WIDTH / 2);
+
+	birdCollider.type = COLLIDER_TYPE_CIRCLE;
+	birdCollider.radius = 15;
+	collider = (Collider*) &birdCollider;
+	// todo: move collider initialization from main.cpp
 }
