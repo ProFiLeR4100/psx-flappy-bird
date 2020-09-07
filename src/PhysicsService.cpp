@@ -66,7 +66,6 @@ bool PhysicsService::Intersects2D(Sprite *a, Sprite *b)  {
 		bool intersects = false;
 		LINE_F2 line;
 
-		// TODO: fix offset if multiple sprites in use
 		for (int i = 0; i < 4; i++) {
 			switch (i) {
 				case 0: // TOP

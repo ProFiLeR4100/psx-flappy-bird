@@ -86,9 +86,6 @@ void resetGame() {
 	pipeDisplacement = 0;
 	bird.reset();
 
-	// todo: move collider initialization from main.cpp to corresponding classes
-	// todo-end
-
 	gameMaster.bird = &bird;
 	gameMaster.ground = &ground;
 

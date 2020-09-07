@@ -76,5 +76,4 @@ void Bird::reset() {
 	birdCollider.type = COLLIDER_TYPE_CIRCLE;
 	birdCollider.radius = 15;
 	collider = (Collider*) &birdCollider;
-	// todo: move collider initialization from main.cpp
 }
