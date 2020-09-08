@@ -1,4 +1,8 @@
 #include "Sprite.h"
+#include "Ground.h"
+#include "Bird.h"
+#include "Pipes.h"
+#include "LIBGS.H"
 #include "GameObject.h"
 #include "GameState.h"
 
@@ -18,10 +22,10 @@ public:
 
 	GameState gameState;
 
-	Sprite *ground;
-	Sprite *bird;
+	Ground *ground;
+	Bird *bird;
 	// TODO: add pipes collision calculation
-	Sprite *pipes;
+	Pipes *pipes;
 };
 
 #endif // GAME_MASTER_H

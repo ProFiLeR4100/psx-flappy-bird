@@ -98,14 +98,18 @@ bool PhysicsService::Intersects2D(Sprite *a, Sprite *b)  {
 					break;
 			}
 
-			if(PHYSICS_SERVICE_MODE) printf("-------------------------------------\nChecking rect/circle collision:\nDirection: %d\nDiff: %d\nLine Position: %d, %d -> %d. %d\nCircle Position: %d, %d\nCircle Radius^2: %d\n",
-					   i,
-					   (int) (PhysicsService::sqPerpendicuralDistance(line, circle->position) - sqRadius),
-					   line.x0, line.y0,
-					   line.x1, line.y1,
-					   (int) circle->position.vx,
-					   (int) circle->position.vy,
-					   (int) sqRadius);
+
+			if(PHYSICS_SERVICE_MODE) printf("-------------------------------------\nLine Position: %d, %d -> %d. %d\n",
+											line.x0, line.y0,
+											line.x1, line.y1);
+//			if(PHYSICS_SERVICE_MODE) printf("-------------------------------------\nChecking rect/circle collision:\nDirection: %d\nDiff: %d\nLine Position: %d, %d -> %d. %d\nCircle Position: %d, %d\nCircle Radius^2: %d\n",
+//					   i,
+//					   (int) (PhysicsService::sqPerpendicuralDistance(line, circle->position) - sqRadius),
+//					   line.x0, line.y0,
+//					   line.x1, line.y1,
+//					   (int) circle->position.vx,
+//					   (int) circle->position.vy,
+//					   (int) sqRadius);
 		}
 
 		if(PHYSICS_SERVICE_MODE) printf("Collision check Ended\n=====================================\n");

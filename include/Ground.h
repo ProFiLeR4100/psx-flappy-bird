@@ -1,5 +1,6 @@
 #include "DisplayService.h"
 #include "Sprite.h"
+#include "Bird.h"
 #include <LIBMATH.H>
 
 #ifndef GROUND_H
@@ -18,6 +19,8 @@ public:
 	virtual void update(float fDeltaTime);
 
 	virtual void updatePhysics(float fDeltaTime);
+
+	bool checkCollisionWIthBird(Bird* bird);
 };
 
 #endif // GROUND_H

@@ -9,7 +9,7 @@
 #ifndef PHYSICS_SERVICE_H
 #define PHYSICS_SERVICE_H
 
-#define PHYSICS_SERVICE_MODE 0
+#define PHYSICS_SERVICE_MODE 1
 
 struct PhysicsService {
 	static float fGravity;

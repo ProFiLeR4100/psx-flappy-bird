@@ -1,3 +1,5 @@
+#include <Bird.h>
+#include <PhysicsService.h>
 #include "Ground.h"
 #include "images/img_ground.tim.h"
 
@@ -35,4 +37,8 @@ void Ground::reset() {
 
 	collider = (Collider*) &groundCollider;
 	groundCollider.type = COLLIDER_TYPE_RECT;
+}
+
+bool Ground::checkCollisionWIthBird(Bird* bird) {
+	return PhysicsService::Intersects2D((Sprite *) this, (Sprite*) bird);
 }

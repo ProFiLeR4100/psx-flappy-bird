@@ -22,8 +22,6 @@
 #include "sounds/passed.h"
 #include "images/img_logo.tim.h"
 #include "images/img_game_over.tim.h"
-#include "images/img_pipe.tim.h"
-#include "images/img_pipe_reversed.tim.h"
 #include "PhysicsService.h"
 #include "Bird.h"
 
@@ -38,6 +36,7 @@ Buildings buildings;
 Clouds clouds;
 Leaves leaves;
 Ground ground;
+Pipes pipes;
 GameMaster gameMaster;
 //Image buildings;
 //Image clouds;
@@ -47,8 +46,6 @@ GameMaster gameMaster;
 Image logo;
 Image gameOver;
 //Image ground;
-Image pipe;
-Image pipeReversed;
 //Image restart;
 float frame = 0;
 
@@ -56,7 +53,6 @@ Collider groundCollider;
 
 
 short pipeDisplacement = 0;
-int pipes[5];
 bool isGameOver = false;
 bool isPlaying = true;
 int coinCount = 0;
@@ -83,17 +79,11 @@ void resetGame() {
 	clouds.reset();
 	buildings.reset();
 	leaves.reset();
-	pipeDisplacement = 0;
+	pipes.reset();
 	bird.reset();
 
 	gameMaster.bird = &bird;
 	gameMaster.ground = &ground;
-
-	pipeDisplacement = -1 * DisplayService::SCREEN_WIDTH * 2;
-
-	for (int i = 0; i < 5; i++) {
-		pipes[i] = randomPipePosition();
-	}
 }
 
 void initialize() {
@@ -127,18 +117,18 @@ void initialize() {
 	buildings.layer = 5;
 	leaves.layer = 4;
 	bird.layer = 3;
-	// pipe 2
+	pipes.layer = 2;
 	ground.layer = 1;
 	gameMaster.layer = 0;
 
 /** Pipes */
-	pipe = DisplayService::createImage(img_pipe_tim);
-	pipe.sprite.mx = (short) (pipe.sprite.w / 2);
-	pipe.sprite.my = 0;
-
-	pipeReversed = DisplayService::createImage(img_pipe_reversed_tim);
-	pipeReversed.sprite.mx = (short) (pipeReversed.sprite.w / 2);
-	pipeReversed.sprite.my = pipeReversed.sprite.h;
+//	pipe = DisplayService::createImage(img_pipe_tim);
+//	pipe.sprite.mx = (short) (pipe.sprite.w / 2);
+//	pipe.sprite.my = 0;
+//
+//	pipeReversed = DisplayService::createImage(img_pipe_reversed_tim);
+//	pipeReversed.sprite.mx = (short) (pipeReversed.sprite.w / 2);
+//	pipeReversed.sprite.my = pipeReversed.sprite.h;
 /** Pipes end*/
 
 	if (!GameObjectService::enableGameObject(&ground)) {
@@ -167,13 +157,13 @@ void initialize() {
 		printf("GameMaster is not enabled.");
 	}
 
+	if (!GameObjectService::enableGameObject(&pipes)) {
+		printf("Pipes are not enabled.");
+	}
+
 	resetGame();
 
 	DisplayService::setBackgroundColor(ColorHelper::fromRGB(112, 197, 206));
-}
-
-short getPipePosition(int num) {
-	return num * pipe.sprite.w * 2 - pipeDisplacement - pipe.sprite.mx;
 }
 
 void BirdUpdate() {
@@ -194,43 +184,10 @@ void BirdUpdate() {
 	}
 }
 
-void PipesUpdate() {
-	if (isPlaying) {
-		pipeDisplacement += 1;
-		if (pipeDisplacement > pipe.sprite.w * 2) {
-			pipeDisplacement = 0;
-
-			for (int i = 1; i < 5; i++) {
-				pipes[i - 1] = pipes[i];
-			}
-
-			pipes[4] = randomPipePosition();
-		}
-	}
-}
 
 void update() {
 	GamepadService::padUpdate();
 	BirdUpdate();
-
-	PipesUpdate();
-}
-
-void drawPipe(unsigned int x, unsigned int y, short spaceBetween) {
-	// Top Pipe
-	pipeReversed.sprite.x = (short) (x);
-	pipeReversed.sprite.y = (short) (y - spaceBetween / 2);
-	DisplayService::drawImage(pipeReversed);
-	// Bottom Pipe
-	pipe.sprite.x = (short) (x);
-	pipe.sprite.y = (short) (y + spaceBetween / 2);
-	DisplayService::drawImage(pipe);
-}
-
-void drawPipes() {
-	for (int i = 0; i < 5; i++) {
-		drawPipe(getPipePosition(i), pipes[i], 60);
-	}
 }
 
 char scoreText[30];
@@ -250,7 +207,6 @@ void draw() {
 
 	sprintf(&scoreText[0], "%d", coinCount);
 	// TOP
-	drawPipes();
 	GameObjectService::draw();
 	// BOTTOM
 }
