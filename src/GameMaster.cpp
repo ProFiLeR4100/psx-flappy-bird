@@ -16,9 +16,9 @@ void GameMaster::updatePhysics(float fDeltaTime) {
 	}
 
 // TODO: add collision to pipes
-//	if(pipes->checkCollisionWithBird(bird)) {
-//		printf("YAY! Pipe Collision found!!!\n");
-//	} else {
-//		printf("No Pipe Collision!\n");
-//	}
+	if(pipes->checkCollisionWithBird(bird)) {
+		printf("YAY! Pipe Collision found!!!\n");
+	} else {
+		printf("No Pipe Collision!\n");
+	}
 }

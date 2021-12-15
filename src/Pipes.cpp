@@ -36,8 +36,7 @@ bool Pipes::checkCollisionWithBird(Bird *bird) {
 	collisionCheckPipe.collider = &pipeCollider;
 	for (int i = 0; i < 5; i++) {
 		printf("%d Position: %d\n", i, calculatePipePosition(i));
-		continue;
-//		if(calculatePipePosition(i) > DisplayService::SCREEN_WIDTH) continue;
+		if(calculatePipePosition(i) > DisplayService::SCREEN_WIDTH) continue;
 
 		// Top Pipe
 		collisionCheckPipe.image.sprite.w = topPipeImage.sprite.w;
